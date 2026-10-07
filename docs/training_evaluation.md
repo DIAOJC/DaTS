@@ -4,7 +4,7 @@ The [README](../README.md#how-to-start) covers the main workflow. This guide pro
 
 ## Qwen classifier SFT
 
-Set `paths.classifier_data`, `models.qwen_base`, and `training.template` in [run.py](../run.py). The default data path is `data/private/alpaca_format.jsonl`; the full classifier dataset must be supplied separately. For non-thinking Qwen3 training, use `qwen3_nothink`.
+The complete [classifier training data](../data/classifier_train.jsonl) is included and configured as `paths.classifier_data` in [run.py](../run.py). Set `models.qwen_base` and `training.template` for your model. For non-thinking Qwen3 training, use `qwen3_nothink`.
 
 The configuration uses full-parameter SFT, four GPUs, global batch size 128, LR 5e-6, three epochs, and a 4096-token cutoff. The supplied dataset has 4,968 records; `max_samples: 6000` is a cap.
 

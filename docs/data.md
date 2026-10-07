@@ -57,7 +57,7 @@ DEITA score lists are averaged across turns. A local `inner_label` belongs to it
 
 ## Classifier training
 
-Each JSONL record has exactly the instruction, input, and output needed for Alpaca-format supervised fine-tuning. The shared instruction is in `dats/prompts.py`; `input` contains conversation text and existing tags; `output` is the original category label.
+The complete [classifier_train.jsonl](../data/classifier_train.jsonl) contains the 4,968 examples used to train the Qwen task classifier. Each JSONL record has the `instruction`, `input`, and `output` fields needed for Alpaca-format supervised fine-tuning. The shared instruction is in `dats/prompts.py`; `input` contains conversation text and existing tags; `output` is the original category label.
 
 The class distribution is:
 
@@ -73,6 +73,4 @@ The class distribution is:
 | roleplay | 104 |
 | Total | 4968 |
 
-The raw classifier file is kept under `data/private/` or at another configured local location and is not included in this repository.
-
-This 4,968-example classifier dataset is distinct from the candidate instruction pools. A public URL for the classifier dataset has not been supplied. Classifier training uses LLaMA-Factory through `python run.py train`; downstream SFT uses the selected instruction-response records. See [training and evaluation](training_evaluation.md).
+The classifier dataset is included in this repository and configured as `paths.classifier_data` in `run.py`. It is distinct from the candidate instruction pools and the released Tulu subset. Classifier training uses LLaMA-Factory through `python run.py train`; downstream SFT uses the selected instruction-response records. See [training and evaluation](training_evaluation.md).

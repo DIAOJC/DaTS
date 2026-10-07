@@ -102,7 +102,7 @@ pip install -e 'external/LLaMA-Factory[metrics,deepspeed]'
 
 #### Train the Qwen task classifier
 
-Set the classifier data path, Qwen base model, and template in [run.py](run.py):
+The [classifier training data](data/classifier_train.jsonl) contains 4,968 labeled examples. Its path is already set in [run.py](run.py); configure the Qwen base model and template, then run:
 
 ```bash
 python run.py train

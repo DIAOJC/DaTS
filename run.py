@@ -5,7 +5,7 @@ from pathlib import Path
 SETTINGS = {
     "paths": {
         "pool": "data/private/pools/tulu3/pool.jsonl",
-        "classifier_data": "data/private/alpaca_format.jsonl",
+        "classifier_data": "data/classifier_train.jsonl",
         "classifier_checkpoint": "outputs/qwen_classifier",
         "llamafactory_dir": "external/LLaMA-Factory",
         "training_work_dir": "outputs/classifier_training",
