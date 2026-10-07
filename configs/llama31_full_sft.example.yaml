@@ -1,0 +1,25 @@
+# Downstream SFT example. Run from the DaTS repository root.
+# Four GPUs x one example x 32 accumulation steps = global batch size 128.
+model_name_or_path: checkpoints/Llama-3.1-8B
+stage: sft
+do_train: true
+finetuning_type: full
+dataset: dats_selected
+dataset_dir: data
+template: llama3
+cutoff_len: 4096
+output_dir: outputs/dats_llama31_sft
+per_device_train_batch_size: 1
+gradient_accumulation_steps: 32
+learning_rate: 5.0e-6
+num_train_epochs: 3.0
+lr_scheduler_type: linear
+warmup_ratio: 0.03
+bf16: true
+gradient_checkpointing: true
+deepspeed: configs/deepspeed_zero3.json
+ddp_timeout: 180000
+logging_steps: 10
+save_strategy: epoch
+save_only_model: true
+report_to: none

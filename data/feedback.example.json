@@ -1,0 +1,11 @@
+{
+  "description": "Synthetic format example; replace with real task evaluation scores.",
+  "before": {
+    "math": 0.5,
+    "coding": 0.5
+  },
+  "after": {
+    "math": 0.53,
+    "coding": 0.49
+  }
+}
