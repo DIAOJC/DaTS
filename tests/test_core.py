@@ -10,7 +10,7 @@ from dats.budget import allocate_proportional
 from dats.clustering import cluster_inner, fine_groups
 from dats.config import Config
 from dats.data import adapt_record, load_samples, write_jsonl
-from dats.demo import make_demo_records, demo_evaluator, PROMPTS
+from tests.fixtures import make_records, synthetic_evaluator, PROMPTS
 from dats.embeddings import validate_embeddings
 from dats.feedback import project_simplex, update_weights, feedback_loop
 from dats.labeling import label_tasks
@@ -166,13 +166,13 @@ class FeedbackTests(unittest.TestCase):
         self.assertFalse(details["coding"]["updated"])
 
     def test_feedback_loop_calls_evaluator_and_changes_weights(self):
-        samples = [adapt_record(r, i) for i, r in enumerate(make_demo_records(4, annotated=True))]
+        samples = [adapt_record(r, i) for i, r in enumerate(make_records(4, annotated=True))]
         config = Config(budget=16, fine_clusters=8)
         emb, metrics, _ = prepare(samples, config)
         calls = []
         def evaluator(records, iteration):
             calls.append((len(records), iteration))
-            return demo_evaluator(records, iteration)
+            return synthetic_evaluator(records, iteration)
         final, history = feedback_loop(samples, emb, metrics, config, evaluator, {t: .5 for t in PROMPTS}, rounds=2)
         self.assertEqual(calls, [(16, 0), (16, 1)])
         self.assertEqual(len(history), 2)
@@ -185,7 +185,7 @@ class FeedbackTests(unittest.TestCase):
 
 class PipelineTests(unittest.TestCase):
     def test_cached_legacy_end_to_end_preserves_records_and_categories(self):
-        rows = make_demo_records(4, annotated=True)
+        rows = make_records(4, annotated=True)
         original = copy.deepcopy(rows)
         samples = [adapt_record(r, i) for i, r in enumerate(rows)]
         config = Config(budget=16, fine_clusters=8)
@@ -206,12 +206,12 @@ class PipelineTests(unittest.TestCase):
             self.assertEqual(sum(sum(c["selected"] for c in p["children"]) for p in tree), 16)
 
     def test_missing_real_annotations_never_silently_faked(self):
-        samples = [adapt_record(r, i) for i, r in enumerate(make_demo_records(1))]
+        samples = [adapt_record(r, i) for i, r in enumerate(make_records(1))]
         with self.assertRaises(ValueError):
             run(samples, Config(budget=2))
 
     def test_callback_interfaces(self):
-        samples = [adapt_record(r, i) for i, r in enumerate(make_demo_records(1))]
+        samples = [adapt_record(r, i) for i, r in enumerate(make_records(1))]
         config = Config(budget=4, fine_clusters=4)
         result, metadata = run(samples, config, encoder=lambda texts: np.eye(len(texts)),
                                task_predictor=lambda texts: list(PROMPTS), scorer=lambda rows: np.ones((len(rows), 3)))

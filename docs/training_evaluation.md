@@ -17,7 +17,9 @@ The configuration uses full-parameter SFT, four GPUs, global batch size 128, LR 
 | [llama31_full_sft.example.yaml](../configs/llama31_full_sft.example.yaml) | Model path, training parameters, and output directory |
 | [dataset_info.json](../data/dataset_info.json) | Selected data path and field mapping |
 
-The defaults use `checkpoints/Llama-3.1-8B` and `outputs/selection/selected.jsonl`, with full SFT, four GPUs, global batch size 128, LR 5e-6, three epochs, and a 4096-token cutoff. The trained model is saved to `outputs/dats_llama31_sft`.
+The defaults use `checkpoints/Llama-3.1-8B` and the released `tulu3_dats` dataset, with full SFT, four GPUs, global batch size 128, LR 5e-6, three epochs, and a 4096-token cutoff. Extract `data/tulu3_dats.jsonl.gz` first. The trained model is saved to `outputs/dats_llama31_sft`.
+
+To train on a new selection, set `dataset: dats_selected`; that entry reads `outputs/selection/selected.jsonl`.
 
 The dataset entry expects `dialogs` with `role` and `content` fields. Its `file_name` is relative to `dataset_dir: data`; update it if the selection output moves. For other formats, adapt the entry using [LLaMA-Factory's data format](https://github.com/hiyouga/LLaMA-Factory/blob/v0.9.4/data/README.md).
 
@@ -25,11 +27,11 @@ Use the [training command in the README](../README.md#train-the-downstream-model
 
 ## Evaluation configurations
 
-Use the supplied [objective](../configs/opencompass/objective.py) or [subjective](../configs/opencompass/subjective.py) OpenCompass configuration. Edit `checkpoint`, dataset choices, resource settings, and the judge endpoint to match your setup.
+Use [eval_dats.py](../configs/opencompass/eval_dats.py). It covers ARC-c, BBH, GSM8K, HumanEval, MMLU, and IFEval. Edit `model_configs`, batch size, and worker settings to match your setup.
 
 ## Connect evaluation to feedback
 
-Map before/after benchmark results to task scores in [the feedback JSON format](../data/feedback.example.json). Use the same evaluation protocol and score normalization for both rounds; OpenCompass summary files are not read directly.
+Map before/after benchmark results to task scores in [the feedback JSON format](../configs/feedback.example.json). Use the same evaluation protocol and score normalization for both rounds; OpenCompass summary files are not read directly.
 
 Set `paths.feedback_evaluations` and `paths.feedback_run_dir` in `run.py`, then run:
 

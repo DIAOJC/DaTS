@@ -14,9 +14,15 @@ See [README data preparation](../README.md#data-preparation) for direct file lin
 
 The pools use `dialogs` records and include annotations such as `annotation.instag.content` and `annotation.deita`. The default model pipeline recomputes the configured scores and generates Qwen labels and Llama 3.1 embeddings. Released pool annotations alone do not satisfy every field required by `cached`. Preserve model provenance when reusing annotations.
 
+## Released Tulu 3 subset
+
+[tulu3_dats.jsonl.gz](../data/tulu3_dats.jsonl.gz) contains 49,863 selected records. It preserves the supplied conversations, their order, original `_id` values, source tags, and task labels. Embeddings, intermediate scores and cluster labels, and machine-specific classifier metadata are omitted from this training export.
+
+Extract the file with `gzip -dk data/tulu3_dats.jsonl.gz`. It is registered as `tulu3_dats` in [dataset_info.json](../data/dataset_info.json) for LLaMA-Factory. Its fields are `_id`, `dialogs`, `source`, and `task_label`. The subset is ready for downstream SFT; its scores and embeddings are not included for cached selection. The data remains subject to the licenses of its source datasets.
+
 ## Selection pools
 
-Use a JSONL file or JSON array of instruction-response records. `data/example_pool.jsonl` is an English-only synthetic annotated pool.
+Use a JSONL file or JSON array of instruction-response records.
 
 ```json
 {
@@ -67,6 +73,6 @@ The class distribution is:
 | roleplay | 104 |
 | Total | 4968 |
 
-The raw file is kept under `data/private/` or at another configured local location. It is not included in public archives. `data/classifier_training_stats.json` contains only aggregate counts and a checksum. `data/classifier.example.jsonl` is synthetic and is not the full training set.
+The raw classifier file is kept under `data/private/` or at another configured local location and is not included in this repository.
 
 This 4,968-example classifier dataset is distinct from the candidate instruction pools. A public URL for the classifier dataset has not been supplied. Classifier training uses LLaMA-Factory through `python run.py train`; downstream SFT uses the selected instruction-response records. See [training and evaluation](training_evaluation.md).

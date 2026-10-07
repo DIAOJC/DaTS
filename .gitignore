@@ -11,6 +11,7 @@ dist/
 .env
 .env.*
 data/private/
+data/tulu3_dats.jsonl
 outputs/
 external/
 checkpoints/

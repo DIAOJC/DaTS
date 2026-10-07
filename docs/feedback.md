@@ -29,5 +29,3 @@ final_selection, history = feedback_loop(
 ```
 
 `train_and_evaluate(selected_original_records, round_index)` owns the training/checkpoint state and returns a dictionary of higher-is-better task scores. After the last weight update, the loop reselects using the final weights. That final subset has not been reevaluated by the loop and is explicitly marked as such in exported summaries.
-
-The bundled demo uses fixed synthetic rewards solely to exercise this control flow. It does not claim that weights improve real model performance.

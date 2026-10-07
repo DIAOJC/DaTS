@@ -1,4 +1,16 @@
 {
+  "tulu3_dats": {
+    "file_name": "tulu3_dats.jsonl",
+    "formatting": "sharegpt",
+    "columns": {"messages": "dialogs"},
+    "tags": {
+      "role_tag": "role",
+      "content_tag": "content",
+      "user_tag": "user",
+      "assistant_tag": "assistant",
+      "system_tag": "system"
+    }
+  },
   "dats_selected": {
     "file_name": "../outputs/selection/selected.jsonl",
     "formatting": "sharegpt",

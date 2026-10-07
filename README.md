@@ -73,6 +73,12 @@ hf download xsample/tulu-3-pool-annotated pool.jsonl \
 
 Set `paths.pool` in `run.py` to the downloaded JSONL file. See [data formats](docs/data.md) for supported fields.
 
+**Released Tulu 3 subset.** [tulu3_dats.jsonl.gz](data/tulu3_dats.jsonl.gz) contains our 49,863 selected training records. Extract it before downstream training:
+
+```bash
+gzip -dk data/tulu3_dats.jsonl.gz
+```
+
 ### Data sampling
 
 Configure the pool, models, and selection parameters in `run.py`, then select a subset:
@@ -110,15 +116,17 @@ Set the model and training parameters in [the SFT configuration](configs/llama31
 CUDA_VISIBLE_DEVICES=0,1,2,3 llamafactory-cli train configs/llama31_full_sft.example.yaml
 ```
 
+The default dataset is `tulu3_dats`, the released subset above. To train on a new selection, set `dataset: dats_selected` in the SFT configuration.
+
 See [training settings](docs/training_evaluation.md) for the classifier data and configuration details.
 
 ### Evaluation with OpenCompass
 
-We use [OpenCompass](https://github.com/open-compass/opencompass) for evaluation. Use the [objective](configs/opencompass/objective.py) or [subjective](configs/opencompass/subjective.py) configuration and set the model path, datasets, and judge settings for your environment.
+We use [OpenCompass](https://github.com/open-compass/opencompass) for evaluation. Use [eval_dats.py](configs/opencompass/eval_dats.py) and set the model paths and GPU settings for your environment.
 
 ### Optional evaluation feedback
 
-Provide before/after task scores using [the feedback format](data/feedback.example.json), and set the feedback paths in `run.py`:
+Provide before/after task scores using [the feedback format](configs/feedback.example.json), and set the feedback paths in `run.py`:
 
 ```bash
 conda activate dats

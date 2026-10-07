@@ -5,7 +5,6 @@ from pathlib import Path
 import hashlib
 import json
 import sys
-import numpy as np
 from .config import Config
 from .data import load_samples, write_json, write_jsonl
 from .clustering import label_outer, cluster_inner
@@ -13,7 +12,7 @@ from .embeddings import build_embeddings
 from .labeling import label_tasks
 from .metrics import METRICS, compute_metrics
 from .selection import select_samples
-from .feedback import feedback_loop, update_weights
+from .feedback import update_weights
 from .pipeline import prepare, export_result, annotated_record, read_trace
 
 
@@ -64,28 +63,6 @@ def execute(settings, root, args):
     if args.command == "train":
         from .training import launch_training
         return launch_training(settings, root, args.dry_run)
-    if args.command == "audit":
-        from .release import audit_public_tree
-        report = audit_public_tree(root)
-        if report["issues"]:
-            raise ValueError("Public repository audit failed: " + json.dumps(report["issues"]))
-        return report
-    if args.command == "training-stats":
-        from .training import read_training_records, training_stats
-        source = resolve_path(root, paths["classifier_data"])
-        stats = training_stats(source, read_training_records(source), settings["training"]["max_samples"])
-        return stats
-    if args.command == "demo":
-        from .demo import make_demo_records, demo_evaluator, PROMPTS
-        output = resolve_path(root, paths["demo_dir"])
-        write_jsonl(output / "input.jsonl", make_demo_records(8, annotated=True))
-        samples = load_samples(output / "input.jsonl")
-        config = Config(budget=16 if args.budget is None else args.budget, fine_clusters=8)
-        embeddings, metrics, metadata = prepare(samples, config)
-        metadata["demo"] = "Synthetic embeddings, annotations and evaluation rewards; no pretrained model is run."
-        result, history = feedback_loop(samples, embeddings, metrics, config, demo_evaluator,
-                                        {task: 0.5 for task in PROMPTS}, rounds=2)
-        return export_result(output, samples, result, config, metadata, history)
     if args.command == "feedback":
         folder = resolve_path(root, paths["feedback_run_dir"])
         evaluations = read_json(resolve_path(root, paths["feedback_evaluations"]))
@@ -143,8 +120,8 @@ def execute(settings, root, args):
 
 def main(settings, root, argv=None):
     parser = argparse.ArgumentParser(description="DaTS: configure all paths and models in run.py")
-    parser.add_argument("command", choices=["demo", "cached", "run", "label-outer", "embed", "cluster",
-                                           "label-inner", "score", "select", "feedback", "training-stats", "train", "audit"])
+    parser.add_argument("command", choices=["cached", "run", "label-outer", "embed", "cluster",
+                                           "label-inner", "score", "select", "feedback", "train"])
     parser.add_argument("--budget", type=int, help="Optional selection-budget override")
     parser.add_argument("--dry-run", action="store_true", help="Generate and inspect training configuration without launching GPUs")
     args = parser.parse_args(argv)

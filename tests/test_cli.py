@@ -8,7 +8,7 @@ import unittest
 from run import SETTINGS
 from dats.launcher import main
 from dats.data import write_json, write_jsonl
-from dats.demo import make_demo_records
+from tests.fixtures import make_records
 
 
 class CommandTests(unittest.TestCase):
@@ -26,7 +26,7 @@ class CommandTests(unittest.TestCase):
             settings['selection'].update(budget=16, fine_clusters=8, task_backend='precomputed',
                                           embedding_backend='precomputed', metric_backend='precomputed',
                                           relabel_outer_tasks=False, relabel_inner_tasks=False)
-            write_jsonl(root/'pool.jsonl', make_demo_records(8, annotated=True))
+            write_jsonl(root/'pool.jsonl', make_records(8, annotated=True))
             for stage in ['label-outer', 'embed', 'cluster', 'label-inner', 'score', 'select']:
                 self.call(settings, root, stage)
             staged = (root/'outputs/selection/selected_ids.json').read_text()
@@ -44,15 +44,6 @@ class CommandTests(unittest.TestCase):
             self.call(settings, root, 'cached')
             write_json(evaluation, {'before': {}, 'after': {}, 'selection_trace_sha256': 'wrong'})
             self.call(settings, root, 'feedback', expected=2)
-
-    def test_demo_feedback_and_defaults(self):
-        with tempfile.TemporaryDirectory() as folder:
-            self.call(copy.deepcopy(SETTINGS), Path(folder), 'demo')
-            report = json.loads((Path(folder)/'outputs/demo/summary.json').read_text())
-            self.assertEqual(report['selected_count'], 16)
-            self.assertEqual(report['feedback_rounds'], 2)
-            self.assertFalse(report['final_selection_evaluated'])
-
 
 if __name__ == '__main__':
     unittest.main()

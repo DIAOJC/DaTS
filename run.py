@@ -4,7 +4,7 @@ from pathlib import Path
 
 SETTINGS = {
     "paths": {
-        "pool": "data/example_pool.jsonl",
+        "pool": "data/private/pools/tulu3/pool.jsonl",
         "classifier_data": "data/private/alpaca_format.jsonl",
         "classifier_checkpoint": "outputs/qwen_classifier",
         "llamafactory_dir": "external/LLaMA-Factory",
@@ -12,8 +12,7 @@ SETTINGS = {
         "deepspeed_config": "configs/deepspeed_zero3.json",
         "work_dir": "outputs/work",
         "output_dir": "outputs/selection",
-        "demo_dir": "outputs/demo",
-        "feedback_evaluations": "data/feedback.example.json",
+        "feedback_evaluations": "configs/feedback.example.json",
         "feedback_run_dir": "outputs/selection",
         "initial_weights": None,
     },

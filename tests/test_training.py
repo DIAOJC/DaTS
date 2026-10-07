@@ -6,14 +6,14 @@ import unittest
 from run import SETTINGS
 from dats.data import write_jsonl
 from dats.prompts import CLASSIFIER_INSTRUCTION, classifier_input, classifier_query
-from dats.demo import make_demo_records
+from tests.fixtures import make_records
 from dats.data import adapt_record
 from dats.training import prepare_training, read_training_records, launch_training
 
 
 def training_fixture():
     rows = []
-    for i, raw in enumerate(make_demo_records(1, annotated=True)):
+    for i, raw in enumerate(make_records(1, annotated=True)):
         sample = adapt_record(raw, i)
         rows.append({'instruction': CLASSIFIER_INSTRUCTION, 'input': classifier_input(sample),
                      'output': raw['alpaca_prediction']['category']})
@@ -64,7 +64,7 @@ class TrainingTests(unittest.TestCase):
                 prepare_training(settings, root)
 
     def test_dataset_instruction_and_inference_are_identical(self):
-        raw = make_demo_records(1, annotated=True)[0]
+        raw = make_records(1, annotated=True)[0]
         sample = adapt_record(raw, 0)
         fixture = training_fixture()[0]
         self.assertEqual(classifier_query(sample), fixture['instruction']+'\n'+fixture['input'])
