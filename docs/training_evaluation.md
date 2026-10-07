@@ -17,7 +17,7 @@ The configuration uses full-parameter SFT, four GPUs, global batch size 128, LR 
 | [llama31_full_sft.example.yaml](../configs/llama31_full_sft.example.yaml) | Model path, training parameters, and output directory |
 | [dataset_info.json](../data/dataset_info.json) | Selected data path and field mapping |
 
-The defaults use `checkpoints/Llama-3.1-8B` and the released `tulu3_dats` dataset, with full SFT, four GPUs, global batch size 128, LR 5e-6, three epochs, and a 4096-token cutoff. Extract `data/tulu3_dats.jsonl.gz` first. The trained model is saved to `outputs/dats_llama31_sft`.
+The defaults use `checkpoints/Llama-3.1-8B` and the released `tulu3_dats` dataset, with full SFT, four GPUs, global batch size 128, LR 5e-6, three epochs, and a 4096-token cutoff. Extract `data/tulu3_dats.zip` first. The trained model is saved to `outputs/dats_llama31_sft`.
 
 To train on a new selection, set `dataset: dats_selected`; that entry reads `outputs/selection/selected.jsonl`.
 

@@ -16,9 +16,9 @@ The pools use `dialogs` records and include annotations such as `annotation.inst
 
 ## Released Tulu 3 subset
 
-[tulu3_dats.jsonl.gz](../data/tulu3_dats.jsonl.gz) contains 49,863 selected records. It preserves the supplied conversations, their order, original `_id` values, source tags, and task labels. Embeddings, intermediate scores and cluster labels, and machine-specific classifier metadata are omitted from this training export.
+[tulu3_dats.zip](../data/tulu3_dats.zip) contains 49,863 selected records. It preserves the supplied conversations, their order, original `_id` values, source tags, and task labels. Embeddings, intermediate scores and cluster labels, and machine-specific classifier metadata are omitted from this training export.
 
-Extract the file with `gzip -dk data/tulu3_dats.jsonl.gz`. It is registered as `tulu3_dats` in [dataset_info.json](../data/dataset_info.json) for LLaMA-Factory. Its fields are `_id`, `dialogs`, `source`, and `task_label`. The subset is ready for downstream SFT; its scores and embeddings are not included for cached selection. The data remains subject to the licenses of its source datasets.
+Extract the file with `unzip data/tulu3_dats.zip -d data`. The extracted `tulu3_dats.jsonl` is registered as `tulu3_dats` in [dataset_info.json](../data/dataset_info.json) for LLaMA-Factory. Its fields are `_id`, `dialogs`, `source`, and `task_label`. The subset is ready for downstream SFT; its scores and embeddings are not included for cached selection. The data remains subject to the licenses of its source datasets.
 
 ## Selection pools
 

@@ -73,10 +73,10 @@ hf download xsample/tulu-3-pool-annotated pool.jsonl \
 
 Set `paths.pool` in `run.py` to the downloaded JSONL file. See [data formats](docs/data.md) for supported fields.
 
-**Released Tulu 3 subset.** [tulu3_dats.jsonl.gz](data/tulu3_dats.jsonl.gz) contains our 49,863 selected training records. Extract it before downstream training:
+**Released Tulu 3 subset.** [tulu3_dats.zip](data/tulu3_dats.zip) contains our 49,863 selected training records. Extract it before downstream training:
 
 ```bash
-gzip -dk data/tulu3_dats.jsonl.gz
+unzip data/tulu3_dats.zip -d data
 ```
 
 ### Data sampling
