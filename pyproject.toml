@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "dats-selection"
 version = "0.2.0"
-description = "Diverse and Task-Specific Data Selection for Instruction Tuning"
+description = "Official code for DaTS: Diverse and Task-Specific Data Selection for Instruction Tuning (PAKDD 2026)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}

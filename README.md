@@ -2,6 +2,8 @@
 
 [Paper](https://www.springerprofessional.de/en/diverse-and-task-specific-data-selection-for-instruction-tuning/52521546) | [Data Pools](#data-preparation) | [Models](#model-preparation) | [Training](#sft-training-with-llama-factory) | [Evaluation](#evaluation-with-opencompass)
 
+Official code for the **PAKDD 2026** paper **Diverse and Task-Specific Data Selection for Instruction Tuning**.
+
 DaTS selects instruction-tuning data through coarse-to-fine clustering and task-specific metric aggregation. We use **LLaMA-Factory** for training and **OpenCompass** for evaluation.
 
 ## How to start?
